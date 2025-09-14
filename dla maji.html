@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zobaczymy się?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #ffe6eb, #ffc0cb);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: 'Dancing Script', cursive;
+      color: #a80038;
+    }
+
+    h1 {
+      font-size: 3em;
+      text-align: center;
+      z-index: 1;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff3366;
+      transform: rotate(45deg);
+      animation: floatUp 6s infinite ease-in;
+      opacity: 0.7;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff3366;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(45deg) scale(1);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .flower-button {
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+      z-index: 2;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .flower {
+      position: absolute;
+      font-size: 1.5rem;
+      animation: bloom 1.5s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes bloom {
+      0% {
+        transform: scale(0.3);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1.8);
+        opacity: 1;
+      }
+    }
+
+    /* Styl audio-playera */
+    .audio-container {
+      margin-top: 20px;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Zobaczymy się chociaż na trochę?</h1>
+
+  <!-- Klikalne kwiatki -->
+  <div>
+    <button class="flower-button" onclick="spawnFlower(event)">🌸</button>
+    <button class="flower-button" onclick="spawnFlower(event)">🌼</button>
+    <button class="flower-button" onclick="spawnFlower(event)">🌺</button>
+  </div>
+
+  <!-- Odtwarzacz audio -->
+  <div class="audio-container">
+    <audio id="myAudio" controls autoplay loop>
+      <source src="AIR TAG final master.wav" type="audio/mpeg">
+      Twój przeglądarka nie obsługuje tagu audio.
+    </audio>
+  </div>
+
+  <script>
+    // Serduszka w tle
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 300);
+
+    // Animacja kwiatków po kliknięciu
+    function spawnFlower(event) {
+      const flower = document.createElement('div');
+      flower.classList.add('flower');
+      flower.innerText = event.target.innerText;
+
+      const rect = event.target.getBoundingClientRect();
+      flower.style.left = rect.left + rect.width / 2 + "px";
+      flower.style.top = rect.top + window.scrollY + "px";
+
+      document.body.appendChild(flower);
+
+      setTimeout(() => {
+        flower.remove();
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
